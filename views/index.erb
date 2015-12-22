@@ -50,7 +50,7 @@
             <td><a href="<%= row['programme_url'] %>"><%= row['programme_title'] %></a></td>
             <td><a href="<%= row['raw_url'] %>"><%= row['rawvcsTitle'] %></a></td>
             <td><%= row['shortTakeCode'] %></td>
-            <td><%= row['proteus_no'] %></td>
+            <td><%= row['proteus_no'] || row['pips_proteus_no'] %></td>
           </tr>
         <% end %>
       </table>
