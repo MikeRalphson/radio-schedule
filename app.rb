@@ -48,7 +48,7 @@ get %r{/(\d{4}-\d{2}-\d{2})$} do |date|
     proteus_id = ids.find {|id| id['type'] == 'bbc_proteus_tx_crid'}
  
     episode = broadcast['broadcast_of'].find {|item| item['result_type'] == 'episode'}
-    broadcast['programme_url'] = 'http://www.bbc.co.uk/programme/'+episode['pid']
+    broadcast['programme_url'] = 'http://www.bbc.co.uk/programmes/'+episode['pid']
     broadcast['programme_title'] = broadcast['ancestor_titles'].map {|item| item['title']}.uniq.compact.join(' - ')
    
     if broadcast['published_time']
