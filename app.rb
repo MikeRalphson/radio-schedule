@@ -60,7 +60,8 @@ get %r{/(\d{4}-\d{2}-\d{2})$} do |date|
     if proteus_id and proteus_id['$'] =~ %r|crid://fp.bbc.co.uk/r/(\w+)|
       proteus_no = $1
       messages.each do |message|
-        if message['proteus_no'] == proteus_no
+        if message['proteus_no'] == proteus_no and
+          broadcast['published_start_time'] <= message['accurate_start_time']
           matched = true
           message['status'] = 'success'
           message.merge!(broadcast)
