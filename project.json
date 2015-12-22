@@ -1,0 +1,17 @@
+{
+	name: "rmp-pre-record-schedule",
+	handle: [{
+		path: "/",
+		https: true,
+		allow_dev_certs: true,
+		allow_desktop_certs: true,
+		client_certs: "require"
+	}],
+	packaging: {
+		type: "custom_service",
+		application_port: 8086,
+		requires: [
+			"curl"
+		]
+	}
+}
