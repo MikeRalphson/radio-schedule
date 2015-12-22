@@ -19,6 +19,11 @@ def inner_text(xml, path)
   end
 end
 
+helpers do
+  def pips_inspector(pid)
+    "<a href='https://api.live.bbc.co.uk/pips/inspector/pip/#{pid}'>#{pid}</a>"
+  end
+end
 
 get '/' do
   redirect "/#{Date.today}"
@@ -47,8 +52,8 @@ get %r{/(\d{4}-\d{2}-\d{2})$} do |date|
     ids = broadcast['ids']['id']
     proteus_id = ids.find {|id| id['type'] == 'bbc_proteus_tx_crid'}
  
-    episode = broadcast['broadcast_of'].find {|item| item['result_type'] == 'episode'}
-    broadcast['programme_url'] = 'http://www.bbc.co.uk/programmes/'+episode['pid']
+    broadcast['episode_pid'] = broadcast['broadcast_of'].find {|item| item['result_type'] == 'episode'}['pid']
+    broadcast['version_pid'] = broadcast['broadcast_of'].find {|item| item['result_type'] == 'version'}['pid']
     broadcast['programme_title'] = broadcast['ancestor_titles'].map {|item| item['title']}.uniq.compact.join(' - ')
    
     if broadcast['published_time']
