@@ -1,17 +1,27 @@
 {
-	name: "rmp-pre-record-schedule",
-	handle: [{
-		path: "/",
-		https: true,
-		allow_dev_certs: true,
-		allow_desktop_certs: true,
-		client_certs: "require"
+	"name": "rmp-prerecord-schedule",
+	"handle": [{
+		"path": "/",
+		"https": true,
+		"allow_dev_certs": true,
+		"allow_desktop_certs": true,
+		"client_certs": "require"
 	}],
-	packaging: {
-		type: "custom_service",
-		application_port: 8086,
-		requires: [
-			"curl"
+	"packaging": {
+		"type": "custom_service",
+		"application_port": 8086,
+		"build_requires": [
+			"ruby193-ruby-devel",
+			"ruby193-rubygem-bundler",
+			"ruby193-rubygems-devel",
+			"libxml2-devel",
+			"zlib-devel"
+		],
+		"requires": [
+		  "zlib",
+		  "libxml2",
+			"ruby193-ruby",
+			"ruby193-rubygem-bundler"
 		]
 	}
 }
