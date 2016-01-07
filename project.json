@@ -9,7 +9,7 @@
 	}],
 	"packaging": {
 		"type": "custom_service",
-		"application_port": 8086,
+		"application_port": 9292,
 		"build_requires": [
 			"ruby193-ruby-devel",
 			"ruby193-rubygem-bundler",
