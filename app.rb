@@ -29,6 +29,10 @@ get '/' do
   redirect "/#{Date.today}"
 end
 
+get '/status' do
+  "OK"
+end
+
 get %r{/(\d{4}-\d{2}-\d{2})$} do |date|
 
   @date = Date.parse(date)
