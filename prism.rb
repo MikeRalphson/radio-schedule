@@ -5,6 +5,10 @@ require 'cgi'
 # Certificate for accessing Forge APIs
 raise "Please set the HTTPS_CERT_FILE environment variable" if ENV['HTTPS_CERT_FILE'].nil?
 HTTPS_CERT = File.read(ENV['HTTPS_CERT_FILE'])
+raise "Please set the HTTPS_KEY_FILE environment variable" if ENV['HTTPS_KEY_FILE'].nil?
+HTTPS_KEY = File.read(ENV['HTTPS_KEY_FILE'])
+raise "Please set the HTTPS_CA_FILE environment variable" if ENV['HTTPS_CA_FILE'].nil?
+HTTPS_CA_FILE = ENV['HTTPS_CA_FILE']
 
 
 class PRISM
@@ -40,11 +44,10 @@ class PRISM
 
     if uri.scheme == "https"
       http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      if HTTPS_CERT
-        http.key = OpenSSL::PKey::RSA.new(HTTPS_CERT)
-        http.cert = OpenSSL::X509::Certificate.new(HTTPS_CERT)
-      end
+      http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+      http.key = OpenSSL::PKey::RSA.new(HTTPS_KEY) if HTTPS_KEY
+      http.cert = OpenSSL::X509::Certificate.new(HTTPS_CERT) if HTTPS_CERT
+      http.ca_file = HTTPS_CA_FILE if HTTPS_CA_FILE
     end
 
     req = Net::HTTP::Get.new(uri.request_uri)
