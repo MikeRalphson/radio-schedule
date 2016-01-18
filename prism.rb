@@ -12,8 +12,16 @@ HTTPS_CA_FILE = ENV['HTTPS_CA_FILE']
 
 
 class PRISM
-  def initialize(endpoint="https://prism-admin.cloud.bbc.co.uk/api")
-    @endpoint = endpoint
+  def initialize(endpoint=nil)
+    if endpoint.nil?
+      if ENV['PRISM_ENDPOINT']
+        @endpoint = ENV['PRISM_ENDPOINT']
+      else
+        @endpoint = "https://prism-admin.cloud.bbc.co.uk/api"
+      end
+    else
+      @endpoint = endpoint
+    end
   end
 
   def raw_messages(network, date, limit=100)
