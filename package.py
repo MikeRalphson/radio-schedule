@@ -8,6 +8,7 @@ def package(mbt):
       'tar', '-czf', mbt.sources_dir + '/' + source_file,
       '--exclude-vcs',
       '--exclude=.DS_Store',
+      '--exclude=infrastructure',
       '--exclude=package.py',
       '--exclude=package.pyc',
       '--exclude=project.json',
