@@ -25,6 +25,16 @@ helpers do
   end
 end
 
+
+before do
+  # Hack to fix redirects using the wrong protocol (thanks to broken proxy)
+  if settings.environment == :production
+    def request.scheme
+      'https'
+    end
+  end
+end
+
 get '/' do
   redirect "/#{Date.today}"
 end
