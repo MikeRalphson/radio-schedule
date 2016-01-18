@@ -21,6 +21,7 @@
 		  "zlib",
 		  "libxml2",
 			"ruby193-ruby",
+			"ruby193-ruby-libs",
 			"ruby193-rubygem-bundler"
 		]
 	}
