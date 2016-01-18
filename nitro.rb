@@ -12,14 +12,24 @@ class Nitro
     @endpoint = endpoint
   end
   
-  def schedule(service, date)
+  def schedule(service_id, date)
     get(:schedules,
-      :sid => 'bbc_radio_fourfm',
+      :sid => service_id,
       :start_from => "#{date}T00:00:00Z",
       :start_to => "#{date}T23:59:59Z",
       :mixin => 'ancestor_titles',
       :page_size => 100
     )
+  end
+
+  def service(service_id)
+    results = get(:services,
+      :sid => service_id,
+      :page_size => 1
+    )
+    if results['items']
+      results['items'].first
+    end
   end
 
   def get(feed, args={})

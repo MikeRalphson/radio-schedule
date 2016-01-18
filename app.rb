@@ -36,18 +36,23 @@ before do
 end
 
 get '/' do
-  redirect "/#{Date.today}"
+  redirect "/bbc_radio_fourfm/#{Date.today}"
 end
 
 get '/status' do
   "OK"
 end
 
-get %r{/(\d{4}-\d{2}-\d{2})$} do |date|
+get %r{/(\w+)/(\d{4}-\d{2}-\d{2})$} do |service_id,date|
 
   @date = Date.parse(date)
+  @service = nitro.service(service_id)
+  if @service.nil?
+    status 404
+    return "Service Not Found"
+  end
   
-  messages = prism.raw_messages('bbc_radio_fourfm', @date)
+  messages = prism.raw_messages(@service['sid'], @date)
   messages.each do |message|
     raw_xml = prism.raw_message(message['keyfield'])
     message['proteus_no'] = inner_text(raw_xml, 'AssetInfo/GENE_PROD_NO')
@@ -61,7 +66,7 @@ get %r{/(\d{4}-\d{2}-\d{2})$} do |date|
   
   @rows = messages
 
-  schedule = nitro.schedule('bbc_radio_fourfm', @date)
+  schedule = nitro.schedule(@service['sid'], @date)
   schedule['items'].each do |broadcast|
     ids = broadcast['ids']['id']
     proteus_id = ids.find {|id| id['type'] == 'bbc_proteus_tx_crid'}
