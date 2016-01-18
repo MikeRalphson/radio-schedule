@@ -29,12 +29,21 @@ def package(mbt):
 
     app_dir = "%{buildroot}/usr/lib/" + mbt.name + "/"
     mbt.spec.add_install_steps([
-        ["rm", "-rf", "%{buildroot}/*"],
+        ["rm", "-rf", "%{buildroot}"],
         ["mkdir", "-p", app_dir],
         ["mkdir", "-p", "%{buildroot}%{_initddir}"],
         ["mv", "initd.sh", "%{buildroot}%{_initddir}/" + mbt.name],
         ["cp", "-rf", ".", app_dir]
     ])
+
+    mbt.spec.add_post_steps([
+        ["/sbin/chkconfig", "--add", mbt.name],
+    ])
+
+    mbt.spec.add_preun_steps([
+        ["/sbin/chkconfig", "--del", mbt.name],
+    ])
+
 
     # %files
     mbt.spec.add_files(["%{_initddir}"], file_permissions=755)
