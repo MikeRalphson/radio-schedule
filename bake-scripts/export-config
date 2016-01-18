@@ -11,10 +11,11 @@ if __name__ == "__main__":
     # into a python dictionary
     config = json.load(open(config_file))
 
+    name = config.get("name")
     configuration = config.get("configuration").copy()
     configuration.update(config.get("secure_configuration"))
     
-    with open("/etc/rmp-prerecord-schedule/configuration.sh", 'wb') as fh:
+    with open("/etc/default/" + name, 'wb') as fh:
       for key in configuration:
         if configuration.get(key):
           fh.write("export " + key.upper() + '="' + configuration.get(key) + "\"\n")
