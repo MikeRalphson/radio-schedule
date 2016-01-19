@@ -59,7 +59,7 @@ get %r{/(\w+)/(\d{4}-\d{2}-\d{2})$} do |service_id,date|
     message['proteus_uuid'] = inner_text(raw_xml, 'AssetInfo/GENE_PROD_UUID')
     message['accurate_start_time'] = Time.at(message['rawvcsStartTime'] / 1000)
     message['accurate_end_time'] = message['accurate_start_time'] + message['rawvcsDuration']
-    message['raw_url'] = 'https://prism-admin.cloud.bbc.co.uk/api/messages/raw/xml/' + message['keyfield']
+    message['raw_url'] = prism.endpoint + '/messages/raw/xml/' + message['keyfield']
 
     message['sort_time'] = message['accurate_start_time']
   end
