@@ -24,6 +24,7 @@ def package(mbt):
         ["rm", "-rf", "%{buildroot}"],
         ["mkdir", "-p", app_dir],
         ["mkdir", "-p", "%{buildroot}%{_initddir}"],
+        ["mv", "scripts/start.sh", app_dir],
         ["mv", "scripts/initd.sh", "%{buildroot}%{_initddir}/" + mbt.name],
         ["cp", "-rf", ".", app_dir]
     ])
