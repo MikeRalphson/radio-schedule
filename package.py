@@ -8,16 +8,7 @@ def package(mbt):
       'tar', '-czf', mbt.sources_dir + '/' + source_file,
       '--exclude-vcs',
       '--exclude=.DS_Store',
-      '--exclude=bake-scripts',
-      '--exclude=infrastructure',
-      '--exclude=package.py',
-      '--exclude=package.pyc',
-      '--exclude=project.json',
-      '--exclude=SOURCES',
-      '--exclude=RPMS',
-      '--exclude=SRPMS',
-      '--exclude=SPECS',
-      '.'
+      'app', 'config.ru', 'Gemfile', 'Gemfile.lock', 'scripts'
     ], cwd=mbt.root + '/')
 
     mbt.spec.add_source(source_file)
@@ -33,7 +24,7 @@ def package(mbt):
         ["rm", "-rf", "%{buildroot}"],
         ["mkdir", "-p", app_dir],
         ["mkdir", "-p", "%{buildroot}%{_initddir}"],
-        ["mv", "initd.sh", "%{buildroot}%{_initddir}/" + mbt.name],
+        ["mv", "scripts/initd.sh", "%{buildroot}%{_initddir}/" + mbt.name],
         ["cp", "-rf", ".", app_dir]
     ])
 
