@@ -1,79 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title><%= @service['name'] %> - <%= @date %></title>
+<table class="table table-striped table-condensed table-bordered">
+  <thead>
+    <tr>
+      <th>Published Time</th>
+      <th>Accurate Time</th>
+      <th>Titles</th>
+    </tr>
+  </thead>
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-
-    <style type="text/css">
-      .nowrap { white-space: nowrap; }
-    </style>
-
-  </head>
-  <body>
-
-    <div class="container">
-
-      <div>
-        <h1><%= @service['name'] %> - <%= @date %></h1>
-      </div>
-
-      <table class="table table-condensed table-bordered">
-        <tr>
-          <th style="width:10em">Published Time</th>
-          <th style="width:10em">Actual Time</th>
-          <th style="width:20em">Programme Title</th>
-          <th style="width:20em">Take Title</th>
-          <th>Take ID</th>
-          <th>Proteus No</th>
-          <th>PIPs Ids</th>
-        </tr>
-
-        <% @rows.each do |row| %>
-          <tr class="<%= row['status'] %>">
-            <% if row['published_start_time'] %>
-              <td class="nowrap">
-                <%= row['published_start_time'].strftime('%H:%M') %>-<%= row['published_end_time'].strftime('%H:%M') %>
-              </td>
-            <% else %>
-              <td></td>
-            <% end %>
-            <% if row['accurate_start_time'] %>
-              <td class="nowrap">
-                <%= row['accurate_start_time'].strftime('%H:%M:%S') %>-<%= row['accurate_end_time'].strftime('%H:%M:%S') %>
-              </td>
-            <% else %>
-              <td></td>
-            <% end %>
-            <td><a href="http://www.bbc.co.uk/programmes/<%= row['episode_pid'] %>"><%= row['programme_title'] %></a></td>
-            <td><a href="<%= row['raw_url'] %>"><%= row['rawvcsTitle'] %></a></td>
-            <td><%= row['shortTakeCode'] %></td>
-            <td><%= row['proteus_no'] || row['pips_proteus_no'] %></td>
-            <td class="nowrap">
-              <% if row['pid'] %>
-                B: <%= pips_inspector row['pid'] %><br />
-                V: <%= pips_inspector row['version_pid'] %><br />
-                E: <%= pips_inspector row['episode_pid'] %><br />
-              <% end %>
-            </td>
-          </tr>
+  <tbody>
+  <% @rows.each do |row| %>
+    <tr>
+      <td>
+        <%= row['published_start_time'].strftime("%H:%M") %> - 
+        <%= row['published_end_time'].strftime("%H:%M") %>
+      </td>
+      <td></td>
+      <td>
+        <% row['ancestor_titles'].each do |ancestor| %>
+          <div>
+            <span style="font-weight: bold"><%= ancestor['ancestor_type'].capitalize %></span>:
+            <a href="http://www.bbc.co.uk/programmes/<%= ancestor['pid'] %>"><%= ancestor['title'] || ancestor['presentation_title'] %></a>
+          </div>
         <% end %>
-      </table>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
 
-    </div>
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-  </body>
-</html>
+</table>

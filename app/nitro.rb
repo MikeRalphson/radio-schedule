@@ -15,8 +15,7 @@ class Nitro
   def schedule(service_id, date)
     get(:schedules,
       :sid => service_id,
-      :start_from => "#{date}T00:00:00Z",
-      :start_to => "#{date}T23:59:59Z",
+      :schedule_day => date,
       :mixin => 'ancestor_titles',
       :page_size => 100
     )
