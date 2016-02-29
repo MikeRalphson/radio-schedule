@@ -42,3 +42,4 @@ def package(mbt):
     mbt.spec.add_files(["%{_initddir}"], file_permissions=755)
     mbt.spec.add_files(["/usr/lib/" + mbt.name], file_permissions=644, dir_permissions=755)
     mbt.spec.add_files(["/usr/lib/" + mbt.name + '/start.sh'], file_permissions=755)
+    mbt.spec.add_files(["/usr/lib/" + mbt.name + '/vendor/bundle/ruby/1.9.1/bin'], file_permissions=755)
