@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 #
-# rmp-prerecord-schedule    Start/Stop the Pre-record Schedule Tool.
+# radio-schedule    Start/Stop the Radio Schedule Tool.
 #
 # chkconfig:   35 99 99
 # description: Provides execution functions for installed service
@@ -9,7 +9,7 @@
 #
 . /etc/rc.d/init.d/functions
 
-SERVICE="rmp-prerecord-schedule"
+SERVICE="radio-schedule"
 
 [ -f /etc/default/$SERVICE ] && . /etc/default/$SERVICE
 

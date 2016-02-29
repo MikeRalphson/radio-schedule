@@ -1,5 +1,5 @@
 {
-	"name": "rmp-prerecord-schedule",
+	"name": "radio-schedule",
 	"handle": [{
 		"path": "/",
 		"https": true,
