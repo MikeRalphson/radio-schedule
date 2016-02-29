@@ -39,6 +39,8 @@ class RadioScheduleApp < Sinatra::Application
       def request.scheme
         'https'
       end
+
+      response.headers['Strict-Transport-Security'] = 'max-age=31536000'
     end
   end
 
