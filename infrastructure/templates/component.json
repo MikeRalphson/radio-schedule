@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "Pre-recorded programme schedule view",
+    "Description": "Radio Schedule Tool",
     "Parameters": {
         "BastionAccessSecurityGroup": {
             "Description": "The security group that permits access from the bastions",
@@ -116,7 +116,7 @@
                     {
                         "Key": "BBCProject",
                         "PropagateAtLaunch": true,
-                        "Value": "component-name"
+                        "Value": "radio"
                     },
                     {
                         "Key": "BBCEnvironment",
@@ -130,12 +130,12 @@
                         "PropagateAtLaunch": true,
                         "Value": {
                             "Fn::Join": [
-                                "",
+                                "-",
                                 [
                                     {
                                         "Ref": "Environment"
                                     },
-                                    "component-name"
+                                    "radio-schedule"
                                 ]
                             ]
                         }
