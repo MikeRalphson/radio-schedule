@@ -27,6 +27,8 @@ class RadioScheduleApp < Sinatra::Application
     :bbc_radio_cymru
   ]
 
+  set :static_cache_control, [:public, :max_age => 600]
+
   helpers do
     def pips_inspector(pid)
       "<a href='https://api.live.bbc.co.uk/pips/inspector/pip/#{pid}'>#{pid}</a>"
@@ -45,6 +47,7 @@ class RadioScheduleApp < Sinatra::Application
   end
 
   get '/' do
+    cache_control :public, :max_age => 3600
     redirect "/schedules/bbc_radio_fourfm/#{Date.today}"
   end
 
@@ -53,7 +56,6 @@ class RadioScheduleApp < Sinatra::Application
   end
 
   get %r{/schedules/(\w+)/(\d{4}-\d{2}-\d{2})$} do |service_id,date|
-
     @date = Date.parse(date)
     @service = nitro.service(service_id)
     if @service.nil?
@@ -77,6 +79,7 @@ class RadioScheduleApp < Sinatra::Application
       @rows << broadcast
     end
 
+    cache_control :public, :max_age => 1200
     erb :index
   end
 
