@@ -83,4 +83,16 @@ class RadioScheduleApp < Sinatra::Application
     erb :index
   end
 
+  get %r{/episodes/(\w+)$} do |episode_pid|
+    @episode = nitro.programme(episode_pid)
+    if @episode.nil?
+      status 404
+      return "Episode Not Found"
+    end
+  
+    content_type :json
+    cache_control :public, :max_age => 600
+    @episode.to_json
+  end
+
 end

@@ -31,6 +31,16 @@ class Nitro
     end
   end
 
+  def programme(pid)
+    results = get(:programmes,
+      :pid => pid,
+      :page_size => 1
+    )
+    if results['items']
+      results['items'].first
+    end
+  end
+
   def get(feed, args={})
     uri = URI.parse(@endpoint + feed.to_s)
     params = ["api_key=#{API_KEY}"]
