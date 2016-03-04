@@ -48,7 +48,7 @@ class RadioScheduleApp < Sinatra::Application
 
   get '/' do
     cache_control :public, :max_age => 3600
-    redirect "/schedules/bbc_radio_fourfm/#{Date.today}"
+    redirect "/schedules/bbc_radio_four_extra/#{Date.today}"
   end
 
   get '/status' do
