@@ -12,12 +12,17 @@
 
   <tbody>
   <% @rows.each do |row| %>
-    <tr data-episode-pid="<%= row['episode_pid'] %>">
-      <td>
-        <%= row['published_start_time'].strftime("%H:%M") %> - 
-        <%= row['published_end_time'].strftime("%H:%M") %>
+    <tr data-episode-pid="<%= row['episode_pid'] %>" data-broadcast-pid="<%= row['pid'] %>">
+      <td class="nowrap">
+        <span class="published_start_time"><%= row['published_start_time'].strftime("%H:%M") %></span> - 
+        <span class="published_end_time"><%= row['published_end_time'].strftime("%H:%M") %></span>
       </td>
-      <td></td>
+      <td class="nowrap">
+        <% if row['accurate_start_time'] and row['accurate_end_time']%>
+          <%= row['accurate_start_time'].strftime("%H:%M:%S") %> - 
+          <%= row['accurate_end_time'].strftime("%H:%M:%S") %>
+        <% end %>
+      </td>
       <td>
         <% row['ancestor_titles'].each do |ancestor| %>
           <div>

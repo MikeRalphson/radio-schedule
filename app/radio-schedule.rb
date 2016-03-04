@@ -72,8 +72,21 @@ class RadioScheduleApp < Sinatra::Application
       broadcast['version_pid'] = broadcast['broadcast_of'].find {|item| item['result_type'] == 'version'}['pid']
    
       if broadcast['published_time']
-        broadcast['published_start_time'] = Time.parse(broadcast['published_time']['start'])
-        broadcast['published_end_time'] = Time.parse(broadcast['published_time']['end'])
+        unless broadcast['published_time']['start'].nil?
+          broadcast['published_start_time'] = Time.parse(broadcast['published_time']['start']) 
+        end
+        unless broadcast['published_time']['end'].nil?
+          broadcast['published_end_time'] = Time.parse(broadcast['published_time']['end'])
+        end
+      end
+
+      if broadcast['tx_time']
+        unless broadcast['tx_time']['start'].nil?
+          broadcast['accurate_start_time'] = Time.parse(broadcast['tx_time']['start']) 
+        end
+        unless broadcast['tx_time']['end'].nil?
+          broadcast['accurate_end_time'] = Time.parse(broadcast['tx_time']['end'])
+        end
       end
 
       @rows << broadcast
