@@ -11,6 +11,7 @@
     "type": "custom_service",
     "application_port": 9292,
     "build_requires": [
+      "git",
       "ruby193-ruby-devel",
       "ruby193-rubygem-bundler",
       "ruby193-rubygems-devel",
