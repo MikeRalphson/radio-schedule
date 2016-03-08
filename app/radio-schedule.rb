@@ -36,8 +36,8 @@ class RadioScheduleApp < Sinatra::Application
   end
 
   before do
-    # Hack to fix redirects using the wrong protocol (thanks to broken proxy)
     if settings.environment == :production
+      # Hack to fix redirects using the wrong protocol (thanks to broken proxy)
       def request.scheme
         'https'
       end
