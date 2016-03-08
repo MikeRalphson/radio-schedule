@@ -1,10 +1,19 @@
 require 'sinatra/base'
 require 'logger'
 require 'nitro'
+require 'pips3-api'
 
 class RadioScheduleApp < Sinatra::Application
 
   nitro = Nitro.new
+
+  Pips3Api::Base.logger = Logger.new(STDOUT)
+  Pips3Api::Base.logger.level = Logger::INFO
+  Pips3Api::Base.config = {
+    :endpoint => 'https://api.live.bbc.co.uk/pips/api/v1',
+    :certificate_path => ENV["HTTPS_CERT_FILE"],
+    :proxy => ENV["HTTP_PROXY"],
+  }
 
   radio_services = [
     :bbc_1xtra,
@@ -106,6 +115,18 @@ class RadioScheduleApp < Sinatra::Application
     content_type :json
     cache_control :public, :max_age => 600
     @episode.to_json
+  end
+
+  get %r{/broadcasts/(\w+)$} do |broadcast_pid|
+    @broadcast = Pips3Api::Broadcast.find(broadcast_pid)
+    if @broadcast.nil?
+      status 404
+      return "Broadcast Not Found"
+    end
+  
+    content_type :json
+    cache_control :private, :max_age => 0
+    @broadcast.attributes.to_json
   end
 
 end
