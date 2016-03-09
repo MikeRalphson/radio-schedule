@@ -22,6 +22,10 @@
           <%= row['accurate_start_time'].strftime("%H:%M:%S") %> - 
           <%= row['accurate_end_time'].strftime("%H:%M:%S") %>
         <% end %>
+
+        <div class="text-center">
+          <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#edit-modal">Edit</button>
+        </div>
       </td>
       <td>
         <% row['ancestor_titles'].each do |ancestor| %>
@@ -39,5 +43,71 @@
   </tbody>
 
 </table>
+
+<!-- Modal -->
+<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modal-title">Edit Broadcast</h4>
+      </div>
+
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Published Start</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="edit-modal-published-start-date" placeholder="YYYY-MM-DD" disabled="disabled">
+            </div>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="edit-modal-published-start-time" placeholder="HH:MM:SS" disabled="disabled">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Published End</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="edit-modal-published-end-date" placeholder="YYYY-MM-DD" disabled="disabled">
+            </div>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="edit-modal-published-end-time" placeholder="HH:MM:SS" disabled="disabled">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Accurate Start</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="edit-modal-accurate-start-date" placeholder="YYYY-MM-DD">
+            </div>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="edit-modal-accurate-start-time" placeholder="HH:MM:SS">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Accurate End</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="edit-modal-accurate-end-date" placeholder="YYYY-MM-DD">
+            </div>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="edit-modal-accurate-end-time" placeholder="HH:MM:SS">
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col-sm-1">
+            <i id="edit-modal-spinner" class="glyphicon glyphicon-spin glyphicon-refresh"></i>      
+          </div>
+          <div class="col-sm-11">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="edit-modal-save" disabled="disabled">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <script src="/javascripts/radio-schedule.js"></script>

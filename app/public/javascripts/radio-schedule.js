@@ -14,3 +14,57 @@ $(function() {
   });
 
 });
+
+
+// Handle loading the edit modal dialogue box
+$('#edit-modal').on('show.bs.modal', function (event) {
+  var modal = $(this);
+  var row = $(event.relatedTarget).parents("tr");
+  var broadcast_pid = row.data('broadcast-pid');
+  
+  $('#edit-modal-save').attr('disabled', 'disabled');
+  $('#edit-modal-spinner').removeClass('hidden');
+
+  $('#modal-title').text('Edit Broadcast '+broadcast_pid);
+  $('#edit-modal-published-start-date').val('');
+  $('#edit-modal-published-start-time').val('');
+  $('#edit-modal-published-end-date').val('');
+  $('#edit-modal-published-end-time').val('');
+  $('#edit-modal-accurate-start-date').val('');
+  $('#edit-modal-accurate-start-time').val('');
+  $('#edit-modal-accurate-end-date').val('');
+  $('#edit-modal-accurate-end-time').val('');
+
+  $.getJSON("/broadcasts/"+broadcast_pid, function( data ) {
+    var published_start = data['start_time'].split(/\s+/);
+    $('#edit-modal-published-start-date').val(published_start[0]);
+    $('#edit-modal-published-start-time').val(published_start[1]);
+
+    var published_end = data['end_time'].split(/\s+/);
+    $('#edit-modal-published-end-date').val(published_end[0]);
+    $('#edit-modal-published-end-time').val(published_end[1]);
+
+    if (data['accurate_start']) {
+      var accurate_start = data['accurate_start'].split(/\s+/);
+      $('#edit-modal-accurate-start-date').val(accurate_start[0]);
+      $('#edit-modal-accurate-start-time').val(accurate_start[1]);
+    } else {
+      $('#edit-modal-accurate-start-date').val(published_start[0]);
+      $('#edit-modal-accurate-start-time').val(published_start[1]);
+    }
+
+    if (data['accurate_end']) {
+      var accurate_end = data['accurate_end'].split(/\s+/);
+      $('#edit-modal-accurate-end-date').val(accurate_end[0]);
+      $('#edit-modal-accurate-end-time').val(accurate_end[1]);
+    } else {
+      $('#edit-modal-accurate-end-date').val(published_end[0]);
+      $('#edit-modal-accurate-end-time').val(published_end[1]);
+    }
+
+    // Allow pressing save now
+    $('#edit-modal-save').removeAttr('disabled');
+  }).always(function() {
+    $('#edit-modal-spinner').addClass('hidden');
+  });
+})
