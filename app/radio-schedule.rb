@@ -136,4 +136,25 @@ class RadioScheduleApp < Sinatra::Application
     @broadcast.attributes.to_json
   end
 
+  post %r{/broadcasts/(\w+)$} do |broadcast_pid|
+    @broadcast = Pips3Api::Broadcast.find(broadcast_pid)
+    if @broadcast.nil?
+      status 404
+      return "Broadcast Not Found"
+    end
+
+    if params['accurate_start'].nil? or params['accurate_end'].nil?
+      status 400
+      return "Missing accurate_start or accurate_end"
+    end
+
+    # Update the broadcast with the new accurate start/end
+    @broadcast.accurate_start = Time.parse(params['accurate_start'])
+    @broadcast.accurate_end = Time.parse(params['accurate_end'])
+    @broadcast.save!
+
+    cache_control :private, :max_age => 0
+    "OK"
+  end
+
 end

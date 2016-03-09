@@ -67,4 +67,26 @@ $('#edit-modal').on('show.bs.modal', function (event) {
   }).always(function() {
     $('#edit-modal-spinner').addClass('hidden');
   });
+
+
+  // Handle pressing the save button
+  $('#edit-modal-save').click(function (event) {
+    $('#edit-modal-save').attr('disabled', 'disabled');
+    $('#edit-modal-spinner').removeClass('hidden');
+
+    data = {
+      accurate_start: $('#edit-modal-accurate-start-date').val() + ' ' + $('#edit-modal-accurate-start-time').val(),
+      accurate_end: $('#edit-modal-accurate-end-date').val() + ' ' + $('#edit-modal-accurate-end-time').val()
+    }
+
+    $.post("/broadcasts/"+broadcast_pid, data, function() {
+      $('#edit-modal').modal('hide');
+    }).always(function() {
+      $('#edit-modal-save').removeAttr('disabled');
+      $('#edit-modal-spinner').addClass('hidden');
+    });
+
+  });
+
 })
+
