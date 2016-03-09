@@ -3,7 +3,6 @@ def package(mbt):
     source_file = mbt.name + '.tar.gz'
 
     # source prepare
-    # FIXME: the exclude list is a bit yucky
     mbt.run([
       'tar', '-czf', mbt.sources_dir + '/' + source_file,
       '--exclude-vcs',
