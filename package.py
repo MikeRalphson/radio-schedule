@@ -15,6 +15,7 @@ def package(mbt):
     mbt.spec.set_prep('%setup -c -n ' + mbt.name)
 
     mbt.spec.add_build_steps([
+        ['scl', 'enable', 'ruby193', '"bundle package --all"'],
         ['scl', 'enable', 'ruby193', '"bundle install --deployment"'],
     ])
 
