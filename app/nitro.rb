@@ -4,6 +4,9 @@ require 'cgi'
 
 
 class Nitro
+  attr_accessor :endpoint
+  attr_accessor :http_proxy
+
   # API Key for accessing Nitro
   raise "Please set the NITRO_API_KEY environment variable" if ENV['NITRO_API_KEY'].nil?
   API_KEY = ENV['NITRO_API_KEY']
@@ -54,8 +57,14 @@ class Nitro
       end
     end
     uri.query = params.join('&')
-    
-    http = Net::HTTP.new(uri.host, uri.port)
+
+    if http_proxy 
+      proxy_uri = URI.parse(http_proxy)
+      http = Net::HTTP::Proxy(proxy_uri.host, proxy_uri.port).new(uri.host, uri.port)
+    else
+      http = Net::HTTP.new(uri.host, uri.port)
+    end
+
     http.open_timeout = 10
     http.read_timeout = 20
 

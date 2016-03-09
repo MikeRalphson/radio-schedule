@@ -6,6 +6,7 @@ require 'pips3-api'
 class RadioScheduleApp < Sinatra::Application
 
   nitro = Nitro.new
+  nitro.http_proxy = ENV["HTTP_PROXY"]
 
   Pips3Api::Base.logger = Logger.new(STDOUT)
   Pips3Api::Base.logger.level = Logger::INFO
@@ -52,6 +53,12 @@ class RadioScheduleApp < Sinatra::Application
       end
 
       response.headers['Strict-Transport-Security'] = 'max-age=31536000'
+      Pips3Api::Base.config[:endpoint] = 'https://api.live.bbc.co.uk/pips/api/v1'
+      nitro.endpoint = "http://programmes.api.bbc.com/nitro/api/"
+    else
+      # Development Mode
+      Pips3Api::Base.config[:endpoint] = 'https://api.test.bbc.co.uk/pips/api/v1'
+      nitro.endpoint = "http://nitro-e2e.api.bbci.co.uk/nitro-e2e/api/"
     end
   end
 
