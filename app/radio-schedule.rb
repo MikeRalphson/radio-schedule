@@ -53,8 +53,8 @@ class RadioScheduleApp < Sinatra::Application
       end
 
       response.headers['Strict-Transport-Security'] = 'max-age=31536000'
-      Pips3Api::Base.config[:endpoint] = 'https://api.live.bbc.co.uk/pips/api/v1'
-      nitro.endpoint = "http://programmes.api.bbc.com/nitro/api/"
+      Pips3Api::Base.config[:endpoint] = ENV['PIPS_ENDPOINT']
+      nitro.endpoint = ENV['NITRO_ENDPOINT']
     else
       # Development Mode
       Pips3Api::Base.config[:endpoint] = 'https://api.test.bbc.co.uk/pips/api/v1'
