@@ -5,7 +5,7 @@ gem "rake"
 gem "json"
 gem "nokogiri"
 gem "sinatra"
-gem 'pips3-api', :git => 'git@github.com:bbc/ruby-pips3-api.git'
+gem 'pips3-api', '~> 0.2.0'
 
 group :development do
   gem "shotgun"
