@@ -11,10 +11,12 @@ def package(mbt):
     ], cwd=mbt.root + '/')
 
     mbt.spec.add_source(source_file)
+    mbt.spec.add_source('pips3-api-0.2.0.gem')
     mbt.spec.set_build_arch(None)
     mbt.spec.set_prep('%setup -c -n ' + mbt.name)
 
     mbt.spec.add_build_steps([
+        ['scl', 'enable', 'ruby193', '"gem install %{SOURCE1}"'],
         ['scl', 'enable', 'ruby193', '"bundle package --all"'],
         ['scl', 'enable', 'ruby193', '"bundle install --deployment"'],
     ])
