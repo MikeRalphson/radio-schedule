@@ -47,7 +47,7 @@ class PRISM
       end
     end
     uri.query = params.join('&')
-    
+
     http = Net::HTTP.new(uri.host, uri.port)
     http.open_timeout = 10
     http.read_timeout = 20

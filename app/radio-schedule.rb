@@ -78,18 +78,18 @@ class RadioScheduleApp < Sinatra::Application
       status 404
       return "Service Not Found"
     end
-  
+
     @page_title = "#{@service['name']} - #{@date}"
     @rows = []
-  
+
     schedule = nitro.schedule(@service['sid'], @date)
     schedule['items'].each do |broadcast|
       broadcast['episode_pid'] = broadcast['broadcast_of'].find {|item| item['result_type'] == 'episode'}['pid']
       broadcast['version_pid'] = broadcast['broadcast_of'].find {|item| item['result_type'] == 'version'}['pid']
-   
+
       if broadcast['published_time']
         unless broadcast['published_time']['start'].nil?
-          broadcast['published_start_time'] = Time.parse(broadcast['published_time']['start']) 
+          broadcast['published_start_time'] = Time.parse(broadcast['published_time']['start'])
         end
         unless broadcast['published_time']['end'].nil?
           broadcast['published_end_time'] = Time.parse(broadcast['published_time']['end'])
@@ -98,7 +98,7 @@ class RadioScheduleApp < Sinatra::Application
 
       if broadcast['tx_time']
         unless broadcast['tx_time']['start'].nil?
-          broadcast['accurate_start_time'] = Time.parse(broadcast['tx_time']['start']) 
+          broadcast['accurate_start_time'] = Time.parse(broadcast['tx_time']['start'])
         end
         unless broadcast['tx_time']['end'].nil?
           broadcast['accurate_end_time'] = Time.parse(broadcast['tx_time']['end'])
@@ -118,7 +118,7 @@ class RadioScheduleApp < Sinatra::Application
       status 404
       return "Episode Not Found"
     end
-  
+
     content_type :json
     cache_control :public, :max_age => 600
     @episode.to_json
@@ -130,7 +130,7 @@ class RadioScheduleApp < Sinatra::Application
       status 404
       return "Broadcast Not Found"
     end
-  
+
     content_type :json
     cache_control :private, :max_age => 0
     @broadcast.attributes.to_json

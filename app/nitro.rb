@@ -14,7 +14,7 @@ class Nitro
   def initialize(endpoint="http://programmes.api.bbc.com/nitro/api/")
     @endpoint = endpoint
   end
-  
+
   def schedule(service_id, date)
     get(:schedules,
       :sid => service_id,
@@ -58,7 +58,7 @@ class Nitro
     end
     uri.query = params.join('&')
 
-    if http_proxy 
+    if http_proxy
       proxy_uri = URI.parse(http_proxy)
       http = Net::HTTP::Proxy(proxy_uri.host, proxy_uri.port).new(uri.host, uri.port)
     else
