@@ -16,25 +16,10 @@ class RadioScheduleApp < Sinatra::Application
     :proxy => ENV["HTTP_PROXY"],
   }
 
-  radio_services = [
-    :bbc_1xtra,
-    :bbc_radio_one,
-    :bbc_radio_two,
-    :bbc_radio_three,
-    :bbc_radio_fourfm,
-    :bbc_radio_fourlw,
-    :bbc_radio_four_extra,
-    :bbc_radio_five_live,
-    :bbc_radio_five_live_sports_extra,
-    :bbc_6music,
-    :bbc_asian_network,
-    :bbc_world_service,
-    :bbc_radio_scotland_fm,
-    :bbc_radio_nan_gaidheal,
-    :bbc_radio_ulster,
-    :bbc_radio_foyle,
-    :bbc_radio_wales,
-    :bbc_radio_cymru
+  SERVICES = [
+    {:sid => 'bbc_radio_four_extra', :title => 'BBC Radio 4 Extra'},
+    {:sid => 'bbc_radio_fourfm', :title => 'BBC Radio 4 FM'},
+    {:sid => 'bbc_radio_three', :title => 'BBC Radio 3'},
   ]
 
   set :static_cache_control, [:public, :max_age => 600]
@@ -64,7 +49,7 @@ class RadioScheduleApp < Sinatra::Application
 
   get '/' do
     cache_control :public, :max_age => 3600
-    redirect "/schedules/bbc_radio_four_extra/#{Date.today}"
+    redirect "/schedules/#{SERVICES.first[:sid]}/#{Date.today}"
   end
 
   get '/status' do
