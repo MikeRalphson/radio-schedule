@@ -22,10 +22,12 @@ $('#edit-modal').on('show.bs.modal', function (event) {
   var row = $(event.relatedTarget).parents("tr");
   var broadcast_pid = row.data('broadcast-pid');
   
+  $('#edit-modal').data('broadcast-pid', broadcast_pid);
+  $('#modal-title').text('Edit Broadcast '+broadcast_pid);
+
   $('#edit-modal-save').attr('disabled', 'disabled');
   $('#edit-modal-spinner').removeClass('hidden');
 
-  $('#modal-title').text('Edit Broadcast '+broadcast_pid);
   $('#edit-modal-published-start-date').val('');
   $('#edit-modal-published-start-time').val('');
   $('#edit-modal-published-end-date').val('');
@@ -67,26 +69,25 @@ $('#edit-modal').on('show.bs.modal', function (event) {
   }).always(function() {
     $('#edit-modal-spinner').addClass('hidden');
   });
-
-
-  // Handle pressing the save button
-  $('#edit-modal-save').click(function (event) {
-    $('#edit-modal-save').attr('disabled', 'disabled');
-    $('#edit-modal-spinner').removeClass('hidden');
-
-    data = {
-      accurate_start: $('#edit-modal-accurate-start-date').val() + ' ' + $('#edit-modal-accurate-start-time').val(),
-      accurate_end: $('#edit-modal-accurate-end-date').val() + ' ' + $('#edit-modal-accurate-end-time').val()
-    }
-
-    $.post("/broadcasts/"+broadcast_pid, data, function() {
-      $('#edit-modal').modal('hide');
-    }).always(function() {
-      $('#edit-modal-save').removeAttr('disabled');
-      $('#edit-modal-spinner').addClass('hidden');
-    });
-
-  });
-
 })
 
+
+
+// Handle pressing the save button
+$('#edit-modal-save').click(function (event) {
+  $('#edit-modal-save').attr('disabled', 'disabled');
+  $('#edit-modal-spinner').removeClass('hidden');
+
+  var data = {
+    accurate_start: $('#edit-modal-accurate-start-date').val() + ' ' + $('#edit-modal-accurate-start-time').val(),
+    accurate_end: $('#edit-modal-accurate-end-date').val() + ' ' + $('#edit-modal-accurate-end-time').val()
+  };
+
+  var broadcast_pid = $('#edit-modal').data('broadcast-pid');
+  $.post("/broadcasts/"+broadcast_pid, data, function() {
+    $('#edit-modal').modal('hide');
+  }).always(function() {
+    $('#edit-modal-save').removeAttr('disabled');
+    $('#edit-modal-spinner').addClass('hidden');
+  });
+});
